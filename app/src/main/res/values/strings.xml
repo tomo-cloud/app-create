@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Sharing location</string>
+    <string name="next_button">次へ</string>
+    <string name="user_name">アプリ上で登録するあなたのお名前を記入してください。</string>
+    <string name="user_address">登録するメールアドレスを記入してください。</string>
+    <string name="returnbutton">前に戻る(return)</string>
+    <string name="language">あなたが使用する言語はどちらですか？(What language do you use?) </string>
+    <string name="Japanese">日本語</string>
+    <string name="English">English</string>
+    <string name="next_button1">次へ(Next)</string>
+    <string-array name="placelist">
+        <item>トイレ</item>
+        <item>礼拝所</item>
+    </string-array>
+</resources>
