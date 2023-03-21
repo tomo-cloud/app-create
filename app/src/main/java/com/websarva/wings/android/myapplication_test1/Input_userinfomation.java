@@ -1,7 +1,6 @@
 package com.websarva.wings.android.myapplication_test1;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewParentCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +16,7 @@ public class Input_userinfomation extends AppCompatActivity {
         setContentView(R.layout.activity_input_userinfomation);
         //インテントオブジェクトの取得
         Intent intent=getIntent();
-        Button next_button=findViewById(R.id.nextbutton);
+        Button next_button=findViewById(R.id.nextbutton2);
        HelloListener2 listener=new HelloListener2();
         next_button.setOnClickListener(listener);
     }
