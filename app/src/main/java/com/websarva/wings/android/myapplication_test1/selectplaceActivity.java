@@ -25,11 +25,7 @@ public class selectplaceActivity extends AppCompatActivity {
     }
     private class Mapword implements View.OnClickListener {
         public void onClick(View view) {
-            Spinner Text = findViewById(R.id.Placelist);
-            String text = Text.getContext().toString();
-            String uriStr = "https://www.google.com/maps/d/u/2/edit?mid=1sDV8VGoCMU42u562hQvCxZo1IoPYxfw&usp=sharing";
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(uriStr));
+            Intent intent=new Intent(selectplaceActivity.this,toiletmap.class);
             startActivity(intent);
 
         }
