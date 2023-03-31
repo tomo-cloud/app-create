@@ -25,7 +25,7 @@ public class selectplaceActivity extends AppCompatActivity {
     }
     private class Mapword implements View.OnClickListener {
         public void onClick(View view) {
-            Intent intent=new Intent(selectplaceActivity.this,toiletmap.class);
+            Intent intent=new Intent(selectplaceActivity.this,toiletMapsActivity.class);
             startActivity(intent);
 
         }

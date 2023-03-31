@@ -1,34 +1,115 @@
 package com.websarva.wings.android.myapplication_test1;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import android.content.Intent;
+import android.Manifest;
+import android.view.View;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
+import android.content.pm.PackageManager;
+import android.widget.Button;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.websarva.wings.android.myapplication_test1.databinding.ActivityToiletmapBinding;
+import com.websarva.wings.android.myapplication_test1.databinding.ActivityToiletMapsBinding;
 
-public class toiletmap extends FragmentActivity implements OnMapReadyCallback {
-
+public class toiletMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+    private double _latitude = 0;
+    private double _longitude = 0;
+    private FusedLocationProviderClient _fusedLocationClient;
+    private LocationRequest _locationRequest;
+    public OnUpdateLocation _onUpdateLocation;
     private GoogleMap mMap;
-    private ActivityToiletmapBinding binding;
+    private ActivityToiletMapsBinding binding;
+    private Marker mMarker;
+
+    public class OnUpdateLocation extends LocationCallback {
+        public void onLocationResult(@NonNull LocationResult locationResult) {
+            //直近の位置情報を取得する。
+            Location location = locationResult.getLastLocation();
+            if (location != null) {
+                _latitude = location.getLatitude();
+                _longitude = location.getLongitude();
+                LatLng latLng = new LatLng(_latitude, _longitude);
+                if(mMarker==null){
+                    //現在地を表示する。
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_latitude, _longitude), 15));
+                    mMarker=mMap.addMarker(new MarkerOptions().position(latLng).title("現在地"));}
+                else{mMarker.setPosition(latLng);}
+
+
+
+
+            }
+        }
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityToiletmapBinding.inflate(getLayoutInflater());
+        binding = ActivityToiletMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        _fusedLocationClient = LocationServices.getFusedLocationProviderClient(toiletMapsActivity.this);
+        LocationRequest.Builder builder = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000);
+        _locationRequest = builder.build();
+        //位置情報が変更されたときの処理を行うコールバックオブジェクトを作成
+        _onUpdateLocation = new OnUpdateLocation();
+    }
+    protected void onResume() {
+        super.onResume();
+        //位置情報の追跡開始
+        if (ActivityCompat.checkSelfPermission(toiletMapsActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //許可をACCESS_FINE_LOCATIONとACCESS_COARSE_LOCATIONに設定
+            String[] permissions={android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+            ActivityCompat.requestPermissions(toiletMapsActivity.this,permissions,1000);
+            //onResume()メソッドを終了
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        _fusedLocationClient.requestLocationUpdates(_locationRequest, _onUpdateLocation, Looper.getMainLooper());
+
+
+
+    }
+
+
+
+    protected void onPause(){
+        super.onPause();
+
+        //位置情報の追跡を停止
+        _fusedLocationClient.removeLocationUpdates(_onUpdateLocation);
     }
 
     /**
@@ -40,14 +121,12 @@ public class toiletmap extends FragmentActivity implements OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-    @Override
+
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         // Add a marker in Sydney and move the camera
         LatLng toilet1 = new LatLng(35.6788805, 139.6744167);
         mMap.addMarker(new MarkerOptions().position(toilet1).title("七号通り公園トイレ"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(toilet1));
         LatLng toilet2 = new LatLng(35.6470033, 139.7071389);
         mMap.addMarker(new MarkerOptions().position(toilet2).title("恵比寿公園 公衆トイレ"));
         LatLng toilet3 = new LatLng(35.6641552, 139.7020304);
@@ -104,9 +183,9 @@ public class toiletmap extends FragmentActivity implements OnMapReadyCallback {
         mMap.addMarker(new MarkerOptions().position(toilet28).title("公衆トイレ"));
         LatLng toilet29 = new LatLng(35.7296103, 139.7821232);
         mMap.addMarker(new MarkerOptions().position(toilet29).title("公園トイレ"));
-        LatLng toilet30 = new LatLng( 35.7417216, 139.786354);
+        LatLng toilet30 = new LatLng(35.7417216, 139.786354);
         mMap.addMarker(new MarkerOptions().position(toilet30).title("荒川区立荒川自然公園内トイレ"));
-        LatLng toilet31 = new LatLng( 35.7406008, 139.785531);
+        LatLng toilet31 = new LatLng(35.7406008, 139.785531);
         mMap.addMarker(new MarkerOptions().position(toilet31).title("トイレ"));
         LatLng toilet32 = new LatLng(35.7389386, 139.7736859);
         mMap.addMarker(new MarkerOptions().position(toilet32).title("荒川区立荒川五丁目児童遊園トイレ"));
@@ -136,9 +215,11 @@ public class toiletmap extends FragmentActivity implements OnMapReadyCallback {
         mMap.addMarker(new MarkerOptions().position(toilet44).title("精華公園 公衆トイレ"));
         LatLng toilet45 = new LatLng(35.71937399999999, 139.8055467);
         mMap.addMarker(new MarkerOptions().position(toilet45).title("台東区立隅田公園 公衆トイレ(野球場)"));
-        LatLng toilet46 = new LatLng( 35.7170426, 139.7855703);
+        LatLng toilet46 = new LatLng(35.7170426, 139.7855703);
         mMap.addMarker(new MarkerOptions().position(toilet46).title("入谷南公園 公衆トイレ"));
 
 
+
     }
+
 }

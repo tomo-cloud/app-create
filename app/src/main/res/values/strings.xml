@@ -13,4 +13,5 @@
         <item>礼拝所</item>
     </string-array>
     <string name="title_activity_toiletmap">toiletmap</string>
+    <string name="title_activity_toilet_maps">toiletMapsActivity</string>
 </resources>
