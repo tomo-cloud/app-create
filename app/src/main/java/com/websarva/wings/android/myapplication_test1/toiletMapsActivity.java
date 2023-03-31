@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.view.View;
 import android.location.Location;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -49,8 +51,15 @@ public class toiletMapsActivity extends FragmentActivity implements OnMapReadyCa
                 if(mMarker==null){
                     //現在地を表示する。
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_latitude, _longitude), 15));
-                    mMarker=mMap.addMarker(new MarkerOptions().position(latLng).title("現在地"));}
+                    mMarker=mMap.addMarker(new MarkerOptions().position(latLng) .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).title("現在地"));}
                 else{mMarker.setPosition(latLng);}
+                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        Intent intent=new Intent(toiletMapsActivity.this,mapinformation.class);
+                        startActivity(intent);
+                    }
+                });
 
 
 
@@ -217,6 +226,13 @@ public class toiletMapsActivity extends FragmentActivity implements OnMapReadyCa
         mMap.addMarker(new MarkerOptions().position(toilet45).title("台東区立隅田公園 公衆トイレ(野球場)"));
         LatLng toilet46 = new LatLng(35.7170426, 139.7855703);
         mMap.addMarker(new MarkerOptions().position(toilet46).title("入谷南公園 公衆トイレ"));
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent intent=new Intent(toiletMapsActivity.this,mapinformation.class);
+                startActivity(intent);
+            }
+        });
 
 
 
