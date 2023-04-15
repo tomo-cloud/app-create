@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.view.View;
+import android.widget.EditText;
 
 public class mapinformation extends AppCompatActivity {
 
@@ -20,9 +22,15 @@ public class mapinformation extends AppCompatActivity {
     }
     private class MapReturn implements View.OnClickListener {
         public void onClick(View view) {
-            Intent intent=new Intent(mapinformation.this,toiletMapsActivity.class);
-            startActivity(intent);
-
-        }
+            EditText editText1=(EditText) findViewById(R.id.putusername);
+            EditText editText2=(EditText)findViewById(R.id.edituserName);
+            String username=editText1.getText().toString();
+            String username1=editText2.getText().toString();
+            if(username.equals(username1)) {
+                Intent intent = new Intent(mapinformation.this, toiletMapsActivity.class);
+                startActivity(intent);
+            }else{
+                Log.d("","Error");
+        }}
     }
 }

@@ -7,7 +7,7 @@
     tools:context=".mapinformation">
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/formusername"
         android:layout_width="229dp"
         android:layout_height="54dp"
         android:layout_marginStart="10dp"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/putusername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -26,7 +26,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/formusername" />
 
     <TextView
         android:id="@+id/textView7"
@@ -36,7 +36,7 @@
         android:layout_marginTop="31dp"
         android:text="多目的トイレがありますか？"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/putusername" />
 
     <CheckBox
         android:id="@+id/checkBox3"
@@ -46,7 +46,7 @@
         android:layout_marginTop="21dp"
         android:text="ある"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/putusername" />
 
     <CheckBox
         android:id="@+id/checkBox4"
@@ -58,7 +58,7 @@
         android:text="ない"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/checkBox3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/putusername" />
 
     <TextView
         android:id="@+id/textView8"
