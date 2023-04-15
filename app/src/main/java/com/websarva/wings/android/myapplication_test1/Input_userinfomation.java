@@ -22,6 +22,7 @@ public class Input_userinfomation extends AppCompatActivity {
        HelloListener2 listener=new HelloListener2();
         next_button.setOnClickListener(listener);
     }
+    //テストに関する質問
     private class HelloListener2 implements View.OnClickListener{
         @Override
         //クリックした後の処理
